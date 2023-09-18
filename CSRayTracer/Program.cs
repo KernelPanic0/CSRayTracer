@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,8 +13,24 @@ namespace CSRayTracer
 {
 	internal class Program
 	{
+		static Point3 sphere = new Point3 (0, 0, -1);
+		static bool HitSphere(Point3 centre, double radius, Ray ray)
+		{
+			Vector3 oc = ray.origin - centre;
+			double a = Vector3.Dot(ray.direction, ray.direction);
+			double b = 2.0 * Vector3.Dot(oc, ray.direction);
+			double c = Vector3.Dot(oc, oc) - radius * radius;
+			double discriminant = b * b - 4 * a * c;
+			return (discriminant >= 0);
+
+		}
 		static Colour3 RayColour(Ray ray)
 		{
+			if (HitSphere(sphere, 0.5, ray))
+			{
+				return new Colour3(1, 0, 0);
+			}
+
 			Vector3 unitDirection = Vector3.UnitVector(ray.direction);
 			double a = 0.5 * (unitDirection.y + 1.0);
 			return (Colour3)((1.0-a)*new Colour3(1.0, 1.0, 1.0)+a*new Colour3(0.5, 0.7, 1.0));
@@ -71,6 +88,7 @@ namespace CSRayTracer
 				}
 				writer.Write(resultBuffer);
 			}
+			Console.WriteLine("Finished");
 			Console.ReadLine();
 		}
 		
