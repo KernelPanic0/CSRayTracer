@@ -13,22 +13,29 @@ namespace CSRayTracer
 {
 	internal class Program
 	{
-		static Point3 sphere = new Point3 (0, 0, -1);
-		static bool HitSphere(Point3 centre, double radius, Ray ray)
+		static Point3 sphere = new Point3 (1, 0, -1);
+		static double HitSphere(Point3 centre, double radius, Ray ray)
 		{
-			Vector3 oc = ray.origin - centre;
+			Vector3 oc = (Vector3)(ray.origin - centre);
 			double a = Vector3.Dot(ray.direction, ray.direction);
 			double b = 2.0 * Vector3.Dot(oc, ray.direction);
 			double c = Vector3.Dot(oc, oc) - radius * radius;
-			double discriminant = b * b - 4 * a * c;
-			return (discriminant >= 0);
+			double discriminant = b * b - 4 * a * c; 
+			if (discriminant < 0) // The ray does NOT intersect with the sphere.
+			{
+				return -1.0; // return -1.0, which would be BEHIND the ray, indicating no ray-sphere intersection
+			} else {
+				return (-b - Math.Sqrt(discriminant)) / (2.0 * a);
+			}
 
 		}
 		static Colour3 RayColour(Ray ray)
 		{
-			if (HitSphere(sphere, 0.5, ray))
+			double t = HitSphere(sphere, 0.5, ray);
+			if (t > 0.0)
 			{
-				return new Colour3(1, 0, 0);
+				Vector3 N = Vector3.UnitVector((Vector3)ray.At(t) - new Vector3(0, 0, -1));
+				return 0.5 * new Colour3(N.x + 1, N.y + 1, N.z + 1);
 			}
 
 			Vector3 unitDirection = Vector3.UnitVector(ray.direction);
@@ -54,7 +61,7 @@ namespace CSRayTracer
 			Vector3 pixelDeltaVertical = viewportVertical / imageHeight;
 
 			//Upper left pixel
-			Vector3 viewportUpperLeft = cameraCenter - new Vector3(0, 0, focalLength) - viewportHorizontal/2 - viewportVertical/2;
+			Vector3 viewportUpperLeft = (Vector3)(cameraCenter - new Vector3(0, 0, focalLength) - viewportHorizontal/2 - viewportVertical/2);
 			Vector3 pixel00Loc = viewportUpperLeft + 0.5 * (pixelDeltaHorizontal + pixelDeltaVertical);
 
 			WriteMetadata(imageWidth, imageHeight);
@@ -88,6 +95,7 @@ namespace CSRayTracer
 				}
 				writer.Write(resultBuffer);
 			}
+			writer.Close();
 			Console.WriteLine("Finished");
 			Console.ReadLine();
 		}

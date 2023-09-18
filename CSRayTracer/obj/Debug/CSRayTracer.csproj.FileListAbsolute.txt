@@ -5,3 +5,11 @@ C:\Users\05112\source\repos\CSRayTracer\CSRayTracer\obj\Debug\CSRayTracer.csproj
 C:\Users\05112\source\repos\CSRayTracer\CSRayTracer\obj\Debug\CSRayTracer.csproj.CoreCompileInputs.cache
 C:\Users\05112\source\repos\CSRayTracer\CSRayTracer\obj\Debug\CSRayTracer.exe
 C:\Users\05112\source\repos\CSRayTracer\CSRayTracer\obj\Debug\CSRayTracer.pdb
+C:\Users\026693\OneDrive - Cirencester College\Desktop\Projects\CSRayTracer\CSRayTracer\bin\Debug\CSRayTracer.exe.config
+C:\Users\026693\OneDrive - Cirencester College\Desktop\Projects\CSRayTracer\CSRayTracer\bin\Debug\CSRayTracer.exe
+C:\Users\026693\OneDrive - Cirencester College\Desktop\Projects\CSRayTracer\CSRayTracer\bin\Debug\CSRayTracer.pdb
+C:\Users\026693\OneDrive - Cirencester College\Desktop\Projects\CSRayTracer\CSRayTracer\obj\Debug\CSRayTracer.csproj.AssemblyReference.cache
+C:\Users\026693\OneDrive - Cirencester College\Desktop\Projects\CSRayTracer\CSRayTracer\obj\Debug\CSRayTracer.csproj.SuggestedBindingRedirects.cache
+C:\Users\026693\OneDrive - Cirencester College\Desktop\Projects\CSRayTracer\CSRayTracer\obj\Debug\CSRayTracer.csproj.CoreCompileInputs.cache
+C:\Users\026693\OneDrive - Cirencester College\Desktop\Projects\CSRayTracer\CSRayTracer\obj\Debug\CSRayTracer.exe
+C:\Users\026693\OneDrive - Cirencester College\Desktop\Projects\CSRayTracer\CSRayTracer\obj\Debug\CSRayTracer.pdb
