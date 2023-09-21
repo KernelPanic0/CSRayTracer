@@ -14,17 +14,22 @@ namespace CSRayTracer
 	internal class Program
 	{
 		static Point3 sphere = new Point3 (1, 0, -1);
-		static double HitSphere(Point3 centre, double radius, Ray ray)
+
+        static double HitSphere(Point3 centre, double radius, Ray ray) // Calculate whether a ray hit a sphere
 		{
-			Vector3 oc = (Vector3)(ray.origin - centre);
-			double a = Vector3.Dot(ray.direction, ray.direction);
-			double b = 2.0 * Vector3.Dot(oc, ray.direction);
+			Vector3 oc = (Vector3)(ray.origin - centre); // Vector to the centre of the sphere
+
+			// Coeficients used for the quadratic equation in order to find the intersection points of the ray.
+			double a = Vector3.Dot(ray.direction, ray.direction); // Any point P that satisfies the equation (x - Cx)^2 + (y - Cy)^2 + (z - Cz)^2 = r^2  
+            double b = 2.0 * Vector3.Dot(oc, ray.direction); // 
 			double c = Vector3.Dot(oc, oc) - radius * radius;
+			// Calculate discriminant to determine whether there are real solutions or not (ie if the sphere was intersected in the first place)
 			double discriminant = b * b - 4 * a * c; 
 			if (discriminant < 0) // The ray does NOT intersect with the sphere.
 			{
 				return -1.0; // return -1.0, which would be BEHIND the ray, indicating no ray-sphere intersection
 			} else {
+				// Calculate the closest intersection point along the ray
 				return (-b - Math.Sqrt(discriminant)) / (2.0 * a);
 			}
 
@@ -32,16 +37,16 @@ namespace CSRayTracer
 		static Colour3 RayColour(Ray ray)
 		{
 			double t = HitSphere(sphere, 0.5, ray);
-			if (t > 0.0)
+			if (t > 0.0) // If t is in front of the ray (ie if it hit something)
 			{
-				Vector3 N = Vector3.UnitVector((Vector3)ray.At(t) - new Vector3(0, 0, -1));
-				return 0.5 * new Colour3(N.x + 1, N.y + 1, N.z + 1);
-			}
-
+				Vector3 N = Vector3.UnitVector((Vector3)ray.At(t) - new Vector3(1, 0, -1));
+				return 0.5 * new Colour3(N.x + 1, N.y + 1, N.z + 1); // Normalises the range from -1 - 1 to 0 - 1
+            }
+			// Render background
 			Vector3 unitDirection = Vector3.UnitVector(ray.direction);
 			double a = 0.5 * (unitDirection.y + 1.0);
-			return (Colour3)((1.0-a)*new Colour3(1.0, 1.0, 1.0)+a*new Colour3(0.5, 0.7, 1.0));
-		}
+			return (Colour3)((1.0-a)*new Colour3(1.0, 1.0, 1.0)+a*new Colour3(0.5, 0.7, 1.0)); // Linearly blend white and blue depending on y coordinate. Aka a Lerp
+        }
 		static void Main(string[] args)
 		{
 			double aspectRatio = 16.0 / 9.0;
