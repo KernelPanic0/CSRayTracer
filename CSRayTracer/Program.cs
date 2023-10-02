@@ -43,9 +43,9 @@ namespace CSRayTracer
 				return 0.5 * new Colour3(N.x + 1, N.y + 1, N.z + 1); // Normalises the range from -1 - 1 to 0 - 1
             }*/
 			HitRecord hitRecord = new HitRecord();
-			if(world.Hit(ray, 0, 10000000000, hitRecord))
+			if(world.Hit(ray, 0, 30000.00, hitRecord))
 			{
-				return 0.5 * ((Colour3)hitRecord.normal + new Colour3(1, 1, 1));
+				return 0.5 * (Colour3)(hitRecord.normal + new Colour3(1, 1, 1));
 			}
 			// Render background
 			Vector3 unitDirection = Vector3.UnitVector(ray.direction);

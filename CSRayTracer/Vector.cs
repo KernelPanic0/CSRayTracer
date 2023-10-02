@@ -41,15 +41,19 @@ namespace CSRayTracer
 			return vector / vector.Length();
 		}
 
-		// Operator overloads to change functionality when doing math on 2 vectors
-		// +
-		public static Vector3 operator +(Vector3 vector1, Vector3 vector2)
-		{
-			return new Vector3(vector1.x + vector2.x, vector1.y + vector2.y, vector1.z + vector2.z);
-		}
+        // Operator overloads to change functionality when doing math on 2 vectors
+        // +
+        public static Vector3 operator +(Vector3 vector1, Vector3 vector2)
+        {
+            return new Vector3(vector1.x + vector2.x, vector1.y + vector2.y, vector1.z + vector2.z);
+        }
+        public static Vector3 operator +(Vector3 vector, Colour3 colour)
+        {
+            return new Vector3(vector.x + colour.r, vector.y + colour.g, vector.z + colour.b);
+        }
 
-		// -
-		public static Vector3 operator -(Vector3 vector1, Vector3 vector2)
+        // -
+        public static Vector3 operator -(Vector3 vector1, Vector3 vector2)
 		{
 			return new Vector3(vector1.x - vector2.x, vector1.y - vector2.y, vector1.z - vector2.z);
 		}

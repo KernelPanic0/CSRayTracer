@@ -33,7 +33,7 @@ namespace CSRayTracer
             objects.Add(objectToAdd);
 		}
 
-        public bool Hit(Ray ray, double rayTMin, double rayTMax, HitRecord hitRecord)
+        public override bool Hit(Ray ray, double rayTMin, double rayTMax, HitRecord hitRecord)
         {
             HitRecord tempRecord = new HitRecord();
             bool hitAnything = false;

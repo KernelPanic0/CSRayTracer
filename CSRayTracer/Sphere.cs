@@ -10,7 +10,7 @@ namespace CSRayTracer
     {
         private Point3 centre;
         private double radius;
-        public bool Hit(Ray ray, double rayTMin, double rayTMax, HitRecord hitRecord)
+        public override bool Hit(Ray ray, double rayTMin, double rayTMax, HitRecord hitRecord)
         {
             Vector3 oc = (Vector3)(ray.origin - centre); // Vector to the centre of the sphere
 
@@ -25,9 +25,9 @@ namespace CSRayTracer
 
             // Find nearest root thats within rayTMin and rayTMax
             double root = (-half_b - sqrtd) / a;
-            if (root <= rayTMin || root >= rayTMax)
+            if (root <= rayTMin || rayTMax <= root)
             {
-                root = (-half_b - sqrtd) / a;
+                root = (-half_b + sqrtd) / a;
                 if(root <= rayTMin || rayTMax <= root)
                 {
                     return false;
@@ -38,7 +38,7 @@ namespace CSRayTracer
             hitRecord.point = ray.At(hitRecord.t);
             Vector3 outwardNormal = (Vector3)(hitRecord.point - centre) / radius;
             hitRecord.SetFaceNormal(ray, outwardNormal);
-
+            Console.WriteLine("Hit");
             return true;
         }
         public Sphere(Point3 centre, double radius)
