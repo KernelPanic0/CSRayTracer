@@ -47,12 +47,17 @@ namespace CSRayTracer
 		{
 			return new Vector3(vector1.x + vector2.x, vector1.y + vector2.y, vector1.z + vector2.z);
 		}
+
 		// -
 		public static Vector3 operator -(Vector3 vector1, Vector3 vector2)
 		{
 			return new Vector3(vector1.x - vector2.x, vector1.y - vector2.y, vector1.z - vector2.z);
 		}
-        public static Vector3 operator -(Vector3 vector, Point3 point)
+		public static Vector3 operator -(Vector3 vector)
+		{
+			return new Vector3(-vector.x, -vector.y, -vector.z);
+		}
+		public static Vector3 operator -(Vector3 vector, Point3 point)
         {
             return new Vector3(vector.x - point.x, vector.y - point.y, vector.z - point.z);
         }

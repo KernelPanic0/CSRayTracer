@@ -19,7 +19,7 @@ namespace CSRayTracer
 
 		public Point3 At(double t)
 		{
-			return (Point3)(origin + t* direction);
+			return (origin + t* direction);
 		}
 	}
 }
