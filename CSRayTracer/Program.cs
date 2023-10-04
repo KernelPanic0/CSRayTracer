@@ -13,7 +13,6 @@ namespace CSRayTracer
 {
 	internal class Program
 	{
-		static Point3 sphere = new Point3 (1, 0, -1);
 
         static double HitSphere(Point3 centre, double radius, Ray ray) // Calculate whether a ray hit a sphere
 		{
@@ -43,7 +42,7 @@ namespace CSRayTracer
 				return 0.5 * new Colour3(N.x + 1, N.y + 1, N.z + 1); // Normalises the range from -1 - 1 to 0 - 1
             }*/
 			HitRecord hitRecord = new HitRecord();
-			if(world.Hit(ray, 0, 30000.00, hitRecord))
+			if(world.Hit(ray, 0, 30000.00, ref hitRecord))
 			{
 				return 0.5 * (Colour3)(hitRecord.normal + new Colour3(1, 1, 1));
 			}
@@ -55,7 +54,7 @@ namespace CSRayTracer
 		static void Main(string[] args)
 		{
 			double aspectRatio = 16.0 / 9.0;
-			int imageWidth = 720; // Pixels
+			int imageWidth = 700; // Pixels
 			double imageHeight = (imageWidth / aspectRatio);
 
 			//Camera 
@@ -77,8 +76,11 @@ namespace CSRayTracer
 
 			//World 
 			HittableList world = new HittableList();
-			Sphere sphere = new Sphere(new Point3(0, 0, -1), 5);
+			Sphere sphere = new Sphere(new Point3(0, 0, -5), 1);
+			Sphere surface = new Sphere(new Point3(0, -5002, -5), 5000);
+			world.Add(surface);
 			world.Add(sphere);
+
 
 			WriteMetadata(imageWidth, imageHeight);
 			Console.WriteLine("Wrote metadata");
