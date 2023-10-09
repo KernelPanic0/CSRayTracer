@@ -10,7 +10,7 @@ namespace CSRayTracer
     class Hittable
     {
         
-        public virtual bool Hit(Ray ray, double ray_tmin, double ray_tmax, ref HitRecord hit_record)
+        public virtual bool Hit(Ray ray, Interval rayT, ref HitRecord hit_record)
         {
             return false;
         }
@@ -24,24 +24,22 @@ namespace CSRayTracer
             objects.Add(objectToAdd);
         }
 
-		public HittableList()
-		{
-		}
+		public HittableList() { }
 
         public void Add(Hittable objectToAdd)
         {
             objects.Add(objectToAdd);
 		}
 
-        public override bool Hit(Ray ray, double rayTMin, double rayTMax, ref HitRecord hitRecord)
+        public override bool Hit(Ray ray, Interval rayT, ref HitRecord hitRecord)
         {
             HitRecord tempRecord = new HitRecord();
             bool hitAnything = false;
-            double closestSoFar = rayTMax;
+            double closestSoFar = rayT.max;
 
             foreach (Hittable obj in objects)
             {
-                if (obj.Hit(ray, rayTMin, closestSoFar, ref tempRecord))
+                if (obj.Hit(ray, new Interval(rayT.min, closestSoFar), ref tempRecord))
                 {
                     hitAnything = true;
                     closestSoFar = tempRecord.t;

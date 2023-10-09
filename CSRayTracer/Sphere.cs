@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace CSRayTracer
 {
-    internal class Sphere: Hittable
+    class Sphere: Hittable
     {
         private Point3 centre;
         private double radius;
-        public override bool Hit(Ray ray, double rayTMin, double rayTMax, ref HitRecord hitRecord)
+        public override bool Hit(Ray ray, Interval rayT, ref HitRecord hitRecord)
         {
             Vector3 oc = (Vector3)(ray.origin - centre); // Vector to the centre of the sphere
 
@@ -25,10 +25,10 @@ namespace CSRayTracer
 
             // Find nearest root thats within rayTMin and rayTMax
             double root = (-half_b - sqrtd) / a;
-            if (root <= rayTMin || rayTMax <= root)
+            if (!rayT.Surrounds(root))
             {
                 root = (-half_b + sqrtd) / a;
-                if(root <= rayTMin || rayTMax <= root)
+                if(!rayT.Surrounds(root))
                 {
                     return false;
                 }
