@@ -54,6 +54,7 @@ namespace CSRayTracer
     {
         public Point3 point { get; set; }
         public Vector3 normal { get; set; }
+        public Material material { get; set; }
         public double t { get; set; }
         public bool frontFace { get; set; }
 

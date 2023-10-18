@@ -12,6 +12,7 @@ namespace CSRayTracer
 		public double aspectRatio = 16.0 / 9.0;
 		public int imageWidth = 700; // Pixels
 		public int samplesPerPixel = 100;
+		public int maxDepth = 10;
 		private double imageHeight;
 		private Point3 centre;
 		private Point3 pixel00Loc;
@@ -30,18 +31,18 @@ namespace CSRayTracer
 			StreamWriter writer = new StreamWriter("./render.ppm", true);
 			for (int j = 0; j < imageHeight; j++)
 			{
-				resultBuffer = "";
 				for (int i = 0; i < imageWidth; i++)
 				{
 					Colour3 pixelColour = new Colour3(0, 0, 0);
 					for(int sample = 0; sample < samplesPerPixel; sample++)
 					{
 						Ray ray = GetRay(i, j);
-						pixelColour += RayColour(ray, world);
+						pixelColour += RayColour(ray, maxDepth, world);
 					}
 					double r = ComputeColour(pixelColour.r, samplesPerPixel);
 					double g = ComputeColour(pixelColour.g, samplesPerPixel);
 					double b = ComputeColour(pixelColour.b, samplesPerPixel);
+
 
 
 					int ir = (int)(r);
@@ -60,6 +61,7 @@ namespace CSRayTracer
 		{
 			double scale = 1.0 / samplesPerPixel;
 			colour *= scale;
+			colour = LinearToGamma(colour);
 			Interval intensity = new Interval(0.000, 0.999);
 			return 255.999 * intensity.Clamp(colour);
 
@@ -107,13 +109,25 @@ namespace CSRayTracer
 			pixel00Loc = (Point3)viewportTopLeft + 0.5 * (pixelDeltaHorizontal + pixelDeltaVertical);
 
 		}
-		private Colour3 RayColour(Ray ray, Hittable world)
+		private double LinearToGamma(double colour)
 		{
+			return Math.Sqrt(colour);
+		}
+		private Colour3 RayColour(Ray ray, int depth, Hittable world)
+		{
+			if (depth <= 0)
+				return new Colour3(0, 0, 0);
 			HitRecord hitRecord = new HitRecord();
-			Interval rayTInterval = new Interval(0, Constants.infinity);
+			Interval rayTInterval = new Interval(0.001, Constants.infinity);
 			if (world.Hit(ray, rayTInterval, ref hitRecord))
 			{
-				return 0.5 * (Colour3)(hitRecord.normal + new Colour3(1, 1, 1));
+				Ray scattered = new Ray(new Point3(0, 0, 0), new Vector3(0, 0, 0));
+				Colour3 attenuation = new Colour3(0, 0, 0);
+				if (hitRecord.material.Scatter(ray, hitRecord, ref attenuation, ref scattered))
+					return attenuation * RayColour(scattered, depth-1, world);
+				return new Colour3(0, 0, 0);
+				Vector3 direction = hitRecord.normal + Vector3.RandomUnitVector();
+				return 0.5 * RayColour(new Ray(hitRecord.point, direction), depth-1, world);
 			}
 			// Render background
 			Vector3 unitDirection = Vector3.UnitVector(ray.direction);

@@ -10,6 +10,7 @@ namespace CSRayTracer
     {
         private Point3 centre;
         private double radius;
+        private Material material;
         public override bool Hit(Ray ray, Interval rayT, ref HitRecord hitRecord)
         {
             Vector3 oc = (Vector3)(ray.origin - centre); // Vector to the centre of the sphere
@@ -38,12 +39,14 @@ namespace CSRayTracer
             hitRecord.point = ray.At(hitRecord.t);
             Vector3 outwardNormal = (Vector3)(hitRecord.point - centre) / radius;
             hitRecord.SetFaceNormal(ray, outwardNormal);
+            hitRecord.material = material;
             return true;
         }
-        public Sphere(Point3 centre, double radius)
+        public Sphere(Point3 centre, double radius, Material material)
         {
             this.centre = centre;
             this.radius = radius;
+            this.material = material;
         }
     }
 }

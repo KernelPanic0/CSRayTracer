@@ -11,6 +11,7 @@ namespace CSRayTracer
 		public double x { get; set; }
 		public double y { get; set; }
 		public double z { get; set; }
+		private static Random random = new Random();
 
 		public Vector3(double x, double y, double z)
 		{
@@ -31,6 +32,55 @@ namespace CSRayTracer
 		public double LengthSquared()
 		{
 			return x * x + y * y + z * z;
+		}
+		public static Vector3 Random()
+		{
+			double x = random.NextDouble();
+			double y = random.NextDouble();
+			double z = random.NextDouble();
+			return new Vector3(x, y, z);
+		}
+		public static Vector3 Random(double min, double max)
+		{
+			double x = random.NextDouble() * (max - min) + min;
+			double y = random.NextDouble() * (max - min) + min;
+			double z = random.NextDouble() * (max - min) + min;
+			return new Vector3(x, y, z);
+		}
+		public static Vector3 RandomInUnitSphere()
+		{
+			while (true)
+			{
+				Vector3 p = Vector3.Random(-1, 1);
+				if (p.LengthSquared() < 1)
+				{
+					return p;
+				}
+			}
+		}
+		public static Vector3 RandomUnitVector()
+		{
+			return UnitVector(RandomInUnitSphere());
+		}
+		public  bool NearZero()
+		{
+			double s = 1e-8;
+			return (x < s) && (y < s) && (z < s);
+		}
+		public static Vector3 RandomOnHmisphere(Vector3 normal)
+		{
+			Vector3 onUnitSphere = RandomUnitVector();
+			if (Dot(onUnitSphere, normal) > 0.0) // Same hemisphere as the normal
+			{
+                return onUnitSphere;
+			} else
+			{
+				return -onUnitSphere;
+			}
+		}
+		public static Vector3 Reflect(Vector3 v, Vector3 n)
+		{
+			return v - 2 * Dot(v, n) * n;
 		}
 		public static double Dot(Vector3 vector1, Vector3 vector2)
 		{
