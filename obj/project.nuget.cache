@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "m2+fvrwh8jc=",
+  "success": true,
+  "projectFilePath": "/home/ste/Desktop/CSRayTracerPort/raytracer/2/2.csproj",
+  "expectedPackageFiles": [
+    "/home/ste/.nuget/packages/microsoft.aspnetcore.app.ref/9.0.9/microsoft.aspnetcore.app.ref.9.0.9.nupkg.sha512"
+  ],
+  "logs": []
+}
