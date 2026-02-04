@@ -32,7 +32,7 @@ namespace CSRayTracer
 			TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
 			int lastEpoch = (int)t.TotalSeconds;
 
-			StreamWriter writer = new StreamWriter("./render.ppm", true);
+			StreamWriter writer = new StreamWriter("./out/render.ppm", true);
 			for (int j = 0; j < imageHeight; j++)
 			{
 				for (int i = 0; i < imageWidth; i++)

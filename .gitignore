@@ -1,1 +1,3 @@
-"CSRayTracer/bin/Debug/render.ppm" 
+*.ppm
+./bin/
+./obj
