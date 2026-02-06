@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "/qFlGV3sy0g=",
+  "success": true,
+  "projectFilePath": "/home/ste/Desktop/CSRayTracerPort/CSRayTracer.csproj",
+  "expectedPackageFiles": [
+    "/home/ste/.nuget/packages/raylib-cs/7.0.2/raylib-cs.7.0.2.nupkg.sha512",
+    "/home/ste/.nuget/packages/microsoft.aspnetcore.app.ref/9.0.9/microsoft.aspnetcore.app.ref.9.0.9.nupkg.sha512"
+  ],
+  "logs": []
+}

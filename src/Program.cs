@@ -57,14 +57,17 @@ namespace CSRayTracer
 			world.Add(middleSphere);
 			world.Add(rightSphere);
 
-
 			Camera camera = new Camera();
 
+			UI ui = new UI();
+			ui.width = 400;
+			ui.height = ui.width / (16 / 9);
+
 			camera.imageWidth = 400;
-			camera.samplesPerPixel = 50;
+			camera.samplesPerPixel = 10;
 			camera.maxDepth = 15;
 			camera.background = new Colour3(0, 0, 0);
-			camera.Render(world);
+			camera.Render(world, ui);
 		}
 	}
 }

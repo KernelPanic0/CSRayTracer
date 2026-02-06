@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -21,7 +22,7 @@ namespace CSRayTracer
 		private Vector3 pixelDeltaVertical;
 		private Random random = new Random();
 
-		public void Render(Hittable world)
+		public void Render(Hittable world, UI ui)
 		{
 			Initialise();
 			WriteMetadata(imageWidth, imageHeight);
@@ -35,6 +36,7 @@ namespace CSRayTracer
 			StreamWriter writer = new StreamWriter("./out/render.ppm", true);
 			for (int j = 0; j < imageHeight; j++)
 			{
+				Raylib_cs.Color[] pixels = new Raylib_cs.Color[imageWidth];
 				for (int i = 0; i < imageWidth; i++)
 				{
 					Colour3 pixelColour = new Colour3(0, 0, 0);
@@ -49,19 +51,20 @@ namespace CSRayTracer
 					double g = ComputeColour(pixelColour.g, samplesPerPixel);
 					double b = ComputeColour(pixelColour.b, samplesPerPixel);
 
-
-
 					int ir = (int)(r);
 					int ig = (int)(g);
 					int ib = (int)(b);
 					resultBuffer += $"{ir} {ig} {ib}\n";
+					pixels[i] = new Raylib_cs.Color(ir, ig, ib, 255);
 				}
+				ui.AppendRow(pixels);
+				ui.Draw();
+				writer.Write(resultBuffer);
 				t = DateTime.UtcNow - new DateTime(1970, 1, 1);
 				int timeTaken = (int)t.TotalSeconds - lastEpoch;
 				lastEpoch = (int)t.TotalSeconds;
 				Console.WriteLine($"Remaining time: ~	{timeTaken * (imageHeight - j)/60}m");
 			}
-			writer.Write(resultBuffer);
 			writer.Close();
 			Console.WriteLine("Finished");
 			Console.ReadLine();
@@ -92,8 +95,8 @@ namespace CSRayTracer
 		{
 			double pX = -0.5 + random.NextDouble();
 			double pY = -0.5 + random.NextDouble();
-			return (pX * pixelDeltaHorizontal) + (pY * pixelDeltaVertical);
 
+			return (pX * pixelDeltaHorizontal) + (pY * pixelDeltaVertical);
 		}
 		private void Initialise()
 		{
