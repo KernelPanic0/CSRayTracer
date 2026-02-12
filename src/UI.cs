@@ -1,5 +1,8 @@
 using System.Numerics;
 using Raylib_cs;
+using RayGUI_cs;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace CSRayTracer
 {
@@ -7,50 +10,74 @@ namespace CSRayTracer
     {
         public int width;
         public int height;
-        
-        public Raylib_cs.Color[] pixels;
-        private int rows = 1;
-        public UI()
+        private Raylib_cs.Color[] pixels;
+        private RayGUI_cs.GuiContainer guiContainer;
+        private int rows = 0;
+        public UI(int width)
         {
-			Raylib.InitWindow(800, 600, "CSRayTracer");
-			Raylib.SetTargetFPS(60);
-            this.width = 400;
-			this.height = this.width / (16 / 9);
+            this.width = width;
+            this.height = (int)(this.width / (16.0 / 9.0));
 
-            pixels = new Raylib_cs.Color[width*(int)height];
+            Raylib.SetConfigFlags(Raylib_cs.ConfigFlags.ResizableWindow);
+            // Raylib.SetTraceLogLevel(TraceLogLevel.Error);
+            Raylib.InitWindow(800, 450 + 40, "CSRayTracer");
+            Raylib.SetTargetFPS(60);
+
+            this.guiContainer = new RayGUI_cs.GuiContainer();
+
+            RayGUI_cs.Button saveBtn = new RayGUI_cs.Button(0, 0, 120, 20, "Save to file");
+            this.guiContainer.Add("saveButton", saveBtn);
+
+            pixels = new Raylib_cs.Color[width * (int)height + width * 10];
         }
 
         public void AppendRow(Raylib_cs.Color[] pixels)
         {
-            rows++;
             pixels.CopyTo(this.pixels, width * rows);
+            rows++;
         }
-        public void Draw()
+        public void StartRenderTask()
         {
-            // Fill it with something visible
-            Raylib.BeginDrawing();
-            Raylib.ClearBackground(Color.Black);
-            unsafe
+            Task renderTask = new Task(() =>
             {
-                fixed (Raylib_cs.Color* ptr = pixels)
+                while (!Raylib.WindowShouldClose())
                 {
-                    Raylib_cs.Image img = new Raylib_cs.Image
+                    Raylib.BeginDrawing();
+                    Raylib.ClearBackground(Color.Black);
+
+                    Texture2D texture;
+
+                    unsafe
                     {
-                        Data = ptr,
-                        Width = width,
-                        Height = rows,
-                        Format = PixelFormat.UncompressedR8G8B8A8,
-                        Mipmaps = 1
-                    };
-                    Texture2D texture = Raylib.LoadTextureFromImage(img);
+                        fixed (Raylib_cs.Color* ptr = pixels)
+                        {
+                            Raylib_cs.Image img = new Raylib_cs.Image
+                            {
+                                Data = ptr,
+                                Width = width,
+                                Height = rows,
+                                Format = PixelFormat.UncompressedR8G8B8A8,
+                                Mipmaps = 1
+                            };
+                            texture = Raylib.LoadTextureFromImage(img);
 
-                    float scale = (float)Raylib.GetScreenWidth() / width;
-                    Raylib.DrawTextureEx(texture, new Vector2(0, 0), 0f, scale, Color.White);
+                            float scale = (float)Raylib.GetScreenWidth() / width;
+                            Raylib.DrawTextureEx(texture, new Vector2(0, 0), 0f, scale, Color.White);
 
+                            Raylib.DrawText("Options", 10, (int)((float)height * scale) + 2, 5, Color.Green);
+
+                            guiContainer["saveButton"].Y = (int)((float)height * scale) + 20;
+                        }
+                    }
+
+                    this.guiContainer.Draw();
+
+                    Raylib.EndDrawing();
                     Raylib.UnloadTexture(texture);
                 }
-            }
-            Raylib.EndDrawing();
+            });
+
+            renderTask.Start();
         }
     }
 }

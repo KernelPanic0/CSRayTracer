@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Raylib_cs;
 
 namespace CSRayTracer
 {
@@ -29,14 +30,15 @@ namespace CSRayTracer
 			Sphere lightSource = new Sphere(new Point3(0, 2.8, -2), 1, diffuseLight);
 
 			//Cornell Box
-			Sphere surface = new Sphere(new Point3(0, -50002, -5), 50000, mSurface);
+			Sphere floor = new Sphere(new Point3(0, -50002, -5), 50000, mSurface);
 			Sphere rightWall = new Sphere(new Point3(50002, 0, -5), 50000, matR);
 			Sphere leftWall = new Sphere(new Point3(-50002, 0, -5), 50000, matL);
-			Sphere topSurface = new Sphere(new Point3(0, 50002, -5), 50000, mSurface);
-			Sphere backSurface = new Sphere(new Point3(0, 0, -50003), 50000, mSurface);
+			Sphere ceiling = new Sphere(new Point3(0, 50002, -5), 50000, mSurface);
+			Sphere backWall = new Sphere(new Point3(0, 0, -50003), 50000, mSurface);
+			Sphere frontWall = new Sphere(new Point3(0, 0, 50003), 50000, mSurface);
 
 			//Scene
-			
+
 			Lambertian lSphere = new Lambertian(new Colour3(1, 0.549, 0));
 			Sphere leftSphere = new Sphere(new Point3(-1, -1.5, -2.5), .5, lSphere);
 
@@ -50,22 +52,23 @@ namespace CSRayTracer
 			world.Add(lightSource);
 			world.Add(rightWall);
 			world.Add(leftWall);
-			world.Add(topSurface);
-			world.Add(surface);
-			world.Add(backSurface);
+			world.Add(ceiling);
+			world.Add(floor);
+			world.Add(backWall);
+			world.Add(frontWall);
 			world.Add(leftSphere);
 			world.Add(middleSphere);
 			world.Add(rightSphere);
 
+			const int imageWidth = 400;
 			Camera camera = new Camera();
+			UI ui = new UI(imageWidth);
 
-			UI ui = new UI();
-			ui.width = 400;
-			ui.height = ui.width / (16 / 9);
+			ui.StartRenderTask();
 
-			camera.imageWidth = 400;
+			camera.imageWidth = imageWidth;
 			camera.samplesPerPixel = 10;
-			camera.maxDepth = 15;
+			camera.maxDepth = 5;
 			camera.background = new Colour3(0, 0, 0);
 			camera.Render(world, ui);
 		}

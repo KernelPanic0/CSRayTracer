@@ -26,7 +26,7 @@ namespace CSRayTracer
 		{
 			Initialise();
 			WriteMetadata(imageWidth, imageHeight);
-            Console.WriteLine("Wrote metadata.");
+			Console.WriteLine("Wrote metadata.");
 
 			string resultBuffer = ""; // For storing result
 			int rayCount = 0;
@@ -40,7 +40,7 @@ namespace CSRayTracer
 				for (int i = 0; i < imageWidth; i++)
 				{
 					Colour3 pixelColour = new Colour3(0, 0, 0);
-					for(int sample = 0; sample < samplesPerPixel; sample++)
+					for (int sample = 0; sample < samplesPerPixel; sample++)
 					{
 						Ray ray = GetRay(i, j);
 						pixelColour += RayColour(ray, maxDepth, world);
@@ -55,15 +55,14 @@ namespace CSRayTracer
 					int ig = (int)(g);
 					int ib = (int)(b);
 					resultBuffer += $"{ir} {ig} {ib}\n";
-					pixels[i] = new Raylib_cs.Color(ir, ig, ib, 255);
+					pixels[i] = new Raylib_cs.Color(ir, ig, ib);
 				}
-				ui.AppendRow(pixels);
-				ui.Draw();
 				writer.Write(resultBuffer);
+				ui.AppendRow(pixels);
 				t = DateTime.UtcNow - new DateTime(1970, 1, 1);
 				int timeTaken = (int)t.TotalSeconds - lastEpoch;
 				lastEpoch = (int)t.TotalSeconds;
-				Console.WriteLine($"Remaining time: ~	{timeTaken * (imageHeight - j)/60}m");
+				Console.WriteLine($"Remaining time: ~	{timeTaken * (imageHeight - j) / 60}m");
 			}
 			writer.Close();
 			Console.WriteLine("Finished");
@@ -143,20 +142,21 @@ namespace CSRayTracer
 
 			if (!hitRecord.material.Scatter(ray, hitRecord, ref attenuation, ref scattered))
 				return colourFromEmission;
-			Colour3 colourFromScatter = attenuation * RayColour(scattered, depth-1, world);
+			Colour3 colourFromScatter = attenuation * RayColour(scattered, depth - 1, world);
 
 			return colourFromEmission + colourFromScatter;
 
-/*			return attenuation * RayColour(scattered, depth-1, world);
-			return new Colour3(0, 0, 0);
-			Vector3 direction = hitRecord.normal + Vector3.RandomUnitVector();
-			return 0.5 * RayColour(new Ray(hitRecord.point, direction), depth-1, world);
+			/*			return attenuation * RayColour(scattered, depth-1, world);
+						return new Colour3(0, 0, 0);
+						Vector3 direction = hitRecord.normal + Vector3.RandomUnitVector();
+						return 0.5 * RayColour(new Ray(hitRecord.point, direction), depth-1, world);
 
-			// Render background
-			Vector3 unitDirection = Vector3.UnitVector(ray.direction);
-			double a = 0.5 * (unitDirection.y + 1.0);
-			return (1.0 - a) * new Colour3(1.0, 1.0, 1.0) + a * new Colour3(0.5, 0.7, 1.0); // Linearly blend white and blue depending on y coordinate. Aka a Lerp
-*/		}
+						// Render background
+						Vector3 unitDirection = Vector3.UnitVector(ray.direction);
+						double a = 0.5 * (unitDirection.y + 1.0);
+						return (1.0 - a) * new Colour3(1.0, 1.0, 1.0) + a * new Colour3(0.5, 0.7, 1.0); // Linearly blend white and blue depending on y coordinate. Aka a Lerp
+			*/
+		}
 		static void WriteMetadata(int width, double height)
 		{
 			using (StreamWriter writer = new StreamWriter("./render.ppm"))

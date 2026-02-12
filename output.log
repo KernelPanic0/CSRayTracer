@@ -1,0 +1,462 @@
+/home/ste/Desktop/CSRayTracerPort/src/Hittable.cs(55,23): warning CS8618: Non-nullable property 'point' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/home/ste/Desktop/CSRayTracerPort/CSRayTracer.csproj]
+/home/ste/Desktop/CSRayTracerPort/src/Hittable.cs(56,24): warning CS8618: Non-nullable property 'normal' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/home/ste/Desktop/CSRayTracerPort/CSRayTracer.csproj]
+/home/ste/Desktop/CSRayTracerPort/src/Hittable.cs(57,25): warning CS8618: Non-nullable property 'material' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the property as nullable. [/home/ste/Desktop/CSRayTracerPort/CSRayTracer.csproj]
+/home/ste/Desktop/CSRayTracerPort/src/Camera.cs(17,18): warning CS8618: Non-nullable field 'background' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the field as nullable. [/home/ste/Desktop/CSRayTracerPort/CSRayTracer.csproj]
+/home/ste/Desktop/CSRayTracerPort/src/Camera.cs(19,18): warning CS8618: Non-nullable field 'centre' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the field as nullable. [/home/ste/Desktop/CSRayTracerPort/CSRayTracer.csproj]
+/home/ste/Desktop/CSRayTracerPort/src/Camera.cs(20,18): warning CS8618: Non-nullable field 'pixel00Loc' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the field as nullable. [/home/ste/Desktop/CSRayTracerPort/CSRayTracer.csproj]
+/home/ste/Desktop/CSRayTracerPort/src/Camera.cs(21,19): warning CS8618: Non-nullable field 'pixelDeltaHorizontal' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the field as nullable. [/home/ste/Desktop/CSRayTracerPort/CSRayTracer.csproj]
+/home/ste/Desktop/CSRayTracerPort/src/Camera.cs(22,19): warning CS8618: Non-nullable field 'pixelDeltaVertical' must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring the field as nullable. [/home/ste/Desktop/CSRayTracerPort/CSRayTracer.csproj]
+INFO: Initializing raylib 5.5
+INFO: Platform backend: DESKTOP (GLFW)
+INFO: Supported raylib modules:
+INFO:     > rcore:..... loaded (mandatory)
+INFO:     > rlgl:...... loaded (mandatory)
+INFO:     > rshapes:... loaded (optional)
+INFO:     > rtextures:. loaded (optional)
+INFO:     > rtext:..... loaded (optional)
+INFO:     > rmodels:... loaded (optional)
+INFO:     > raudio:.... loaded (optional)
+INFO: DISPLAY: Device initialized successfully
+INFO:     > Display size: 2560 x 1440
+INFO:     > Screen size:  800 x 490
+INFO:     > Render size:  800 x 490
+INFO:     > Viewport offsets: 0, 0
+INFO: GLAD: OpenGL extensions loaded successfully
+INFO: GL: Supported extensions count: 243
+INFO: GL: OpenGL device information:
+INFO:     > Vendor:   AMD
+INFO:     > Renderer: AMD Radeon RX 6700 XT (radeonsi, navi22, LLVM 21.1.5, DRM 3.64, 6.17.8-arch1-1)
+INFO:     > Version:  4.6 (Core Profile) Mesa 25.2.7-arch1.1
+INFO:     > GLSL:     4.60
+INFO: GL: VAO extension detected, VAO functions loaded successfully
+INFO: GL: NPOT textures extension detected, full NPOT textures supported
+INFO: GL: DXT compressed textures supported
+INFO: GL: ETC2/EAC compressed textures supported
+INFO: PLATFORM: DESKTOP (GLFW - X11): Initialized successfully
+INFO: TEXTURE: [ID 1] Texture loaded successfully (1x1 | R8G8B8A8 | 1 mipmaps)
+INFO: TEXTURE: [ID 1] Default texture loaded successfully
+INFO: SHADER: [ID 1] Vertex shader compiled successfully
+INFO: SHADER: [ID 2] Fragment shader compiled successfully
+INFO: SHADER: [ID 3] Program shader loaded successfully
+INFO: SHADER: [ID 3] Default shader loaded successfully
+INFO: RLGL: Render batch vertex buffers loaded successfully in RAM (CPU)
+INFO: RLGL: Render batch vertex buffers loaded successfully in VRAM (GPU)
+INFO: RLGL: Default OpenGL state initialized successfully
+INFO: TEXTURE: [ID 2] Texture loaded successfully (128x128 | GRAY_ALPHA | 1 mipmaps)
+INFO: FONT: Default font loaded successfully (224 glyphs)
+INFO: SYSTEM: Working Directory: /home/ste/Desktop/CSRayTracerPort
+INFO: TIMER: Target time per frame: 16.667 milliseconds
+WARNING: IMAGE: Data is not valid to load texture
+WARNING: IMAGE: Data is not valid to load texture
+Wrote metadata.
+WARNING: IMAGE: Data is not valid to load texture
+WARNING: IMAGE: Data is not valid to load texture
+WARNING: IMAGE: Data is not valid to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	3.533333333333333m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	3.1666666666666665m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	2.85m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	2.566666666666667m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	2.3m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+Remaining time: ~	0m
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture
+WARNING: TEXTURE: Failed to load texture

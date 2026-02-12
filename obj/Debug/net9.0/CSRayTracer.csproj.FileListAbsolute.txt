@@ -21,3 +21,5 @@
 /home/ste/Desktop/CSRayTracerPort/bin/Debug/net9.0/runtimes/win-x86/native/raylib.dll
 /home/ste/Desktop/CSRayTracerPort/obj/Debug/net9.0/CSRayTracer.csproj.AssemblyReference.cache
 /home/ste/Desktop/CSRayTracerPort/obj/Debug/net9.0/CSRayTra.44FCC995.Up2Date
+/home/ste/Desktop/CSRayTracerPort/bin/Debug/net9.0/Newtonsoft.Json.dll
+/home/ste/Desktop/CSRayTracerPort/bin/Debug/net9.0/RayGUI_cs.dll
