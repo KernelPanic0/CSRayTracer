@@ -22,9 +22,21 @@ namespace CSRayTracer
 		private Vector3 pixelDeltaVertical;
 		private Random random = new Random();
 
-		public void Render(Hittable world, UI ui)
+		public void StartRenderTask(Hittable world, UI ui, Lock renderLock)
 		{
-			Initialise();
+			Task renderTask = new Task(() =>
+			{
+				Render(world, ui, renderLock);
+
+				Thread.Sleep(1); // To not occupy 100% of CPU
+			});
+
+			renderTask.Start();
+		}
+
+		private void Render(Hittable world, UI ui, Lock renderLock)
+		{
+			InitialiseProperties();
 			WriteMetadata(imageWidth, imageHeight);
 			Console.WriteLine("Wrote metadata.");
 
@@ -36,33 +48,36 @@ namespace CSRayTracer
 			StreamWriter writer = new StreamWriter("./out/render.ppm", true);
 			for (int j = 0; j < imageHeight; j++)
 			{
-				Raylib_cs.Color[] pixels = new Raylib_cs.Color[imageWidth];
-				for (int i = 0; i < imageWidth; i++)
+				lock (renderLock)
 				{
-					Colour3 pixelColour = new Colour3(0, 0, 0);
-					for (int sample = 0; sample < samplesPerPixel; sample++)
+					Raylib_cs.Color[] pixels = new Raylib_cs.Color[imageWidth];
+					for (int i = 0; i < imageWidth; i++)
 					{
-						Ray ray = GetRay(i, j);
-						pixelColour += RayColour(ray, maxDepth, world);
-						rayCount++;
-						Console.Title = $"{Math.Round((rayCount / (imageHeight * imageWidth * samplesPerPixel)) * 100, 2)}%";
-					}
-					double r = ComputeColour(pixelColour.r, samplesPerPixel);
-					double g = ComputeColour(pixelColour.g, samplesPerPixel);
-					double b = ComputeColour(pixelColour.b, samplesPerPixel);
+						Colour3 pixelColour = new Colour3(0, 0, 0);
+						for (int sample = 0; sample < samplesPerPixel; sample++)
+						{
+							Ray ray = GetRay(i, j);
+							pixelColour += RayColour(ray, maxDepth, world);
+							rayCount++;
+							Console.Title = $"{Math.Round((rayCount / (imageHeight * imageWidth * samplesPerPixel)) * 100, 2)}%";
+						}
+						double r = ComputeColour(pixelColour.r, samplesPerPixel);
+						double g = ComputeColour(pixelColour.g, samplesPerPixel);
+						double b = ComputeColour(pixelColour.b, samplesPerPixel);
 
-					int ir = (int)(r);
-					int ig = (int)(g);
-					int ib = (int)(b);
-					resultBuffer += $"{ir} {ig} {ib}\n";
-					pixels[i] = new Raylib_cs.Color(ir, ig, ib);
+						int ir = (int)(r);
+						int ig = (int)(g);
+						int ib = (int)(b);
+						resultBuffer += $"{ir} {ig} {ib}\n";
+						pixels[i] = new Raylib_cs.Color(ir, ig, ib);
+					}
+					writer.Write(resultBuffer);
+					ui.AppendRow(pixels);
+					t = DateTime.UtcNow - new DateTime(1970, 1, 1);
+					int timeTaken = (int)t.TotalSeconds - lastEpoch;
+					lastEpoch = (int)t.TotalSeconds;
+					Console.WriteLine($"Remaining time: ~	{timeTaken * (imageHeight - j) / 60}m");
 				}
-				writer.Write(resultBuffer);
-				ui.AppendRow(pixels);
-				t = DateTime.UtcNow - new DateTime(1970, 1, 1);
-				int timeTaken = (int)t.TotalSeconds - lastEpoch;
-				lastEpoch = (int)t.TotalSeconds;
-				Console.WriteLine($"Remaining time: ~	{timeTaken * (imageHeight - j) / 60}m");
 			}
 			writer.Close();
 			Console.WriteLine("Finished");
@@ -97,7 +112,7 @@ namespace CSRayTracer
 
 			return (pX * pixelDeltaHorizontal) + (pY * pixelDeltaVertical);
 		}
-		private void Initialise()
+		private void InitialiseProperties()
 		{
 			imageHeight = imageWidth / aspectRatio;
 			imageHeight = (imageHeight < 1) ? 1 : imageHeight;

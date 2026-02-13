@@ -13,6 +13,7 @@ namespace CSRayTracer
         private Raylib_cs.Color[] pixels;
         private RayGUI_cs.GuiContainer guiContainer;
         private int rows = 0;
+        private int windowWidth = 800;
         public UI(int width)
         {
             this.width = width;
@@ -20,7 +21,7 @@ namespace CSRayTracer
 
             Raylib.SetConfigFlags(Raylib_cs.ConfigFlags.ResizableWindow);
             // Raylib.SetTraceLogLevel(TraceLogLevel.Error);
-            Raylib.InitWindow(800, 450 + 40, "CSRayTracer");
+            Raylib.InitWindow(windowWidth, (int)(windowWidth / (16.0 / 9.0)) + 40, "CSRayTracer");
             Raylib.SetTargetFPS(60);
 
             this.guiContainer = new RayGUI_cs.GuiContainer();
@@ -36,48 +37,42 @@ namespace CSRayTracer
             pixels.CopyTo(this.pixels, width * rows);
             rows++;
         }
-        public void StartRenderTask()
+        public void Draw(Lock renderLock)
         {
-            Task renderTask = new Task(() =>
+            Raylib.BeginDrawing();
+            Raylib.ClearBackground(Color.Black);
+
+            Texture2D texture;
+            lock (renderLock)
             {
-                while (!Raylib.WindowShouldClose())
+                unsafe
                 {
-                    Raylib.BeginDrawing();
-                    Raylib.ClearBackground(Color.Black);
-
-                    Texture2D texture;
-
-                    unsafe
+                    fixed (Raylib_cs.Color* ptr = pixels)
                     {
-                        fixed (Raylib_cs.Color* ptr = pixels)
+                        Raylib_cs.Image img = new Raylib_cs.Image
                         {
-                            Raylib_cs.Image img = new Raylib_cs.Image
-                            {
-                                Data = ptr,
-                                Width = width,
-                                Height = rows,
-                                Format = PixelFormat.UncompressedR8G8B8A8,
-                                Mipmaps = 1
-                            };
-                            texture = Raylib.LoadTextureFromImage(img);
+                            Data = ptr,
+                            Width = width,
+                            Height = rows,
+                            Format = PixelFormat.UncompressedR8G8B8A8,
+                            Mipmaps = 1
+                        };
+                        texture = Raylib.LoadTextureFromImage(img);
 
-                            float scale = (float)Raylib.GetScreenWidth() / width;
-                            Raylib.DrawTextureEx(texture, new Vector2(0, 0), 0f, scale, Color.White);
+                        float scale = (float)Raylib.GetScreenWidth() / width;
+                        Raylib.DrawTextureEx(texture, new Vector2(0, 0), 0f, scale, Color.White);
 
-                            Raylib.DrawText("Options", 10, (int)((float)height * scale) + 2, 5, Color.Green);
+                        Raylib.DrawText("Options", 10, (int)((float)height * scale) + 2, 5, Color.Green);
 
-                            guiContainer["saveButton"].Y = (int)((float)height * scale) + 20;
-                        }
+                        guiContainer["saveButton"].Y = (int)((float)height * scale) + 20;
                     }
-
-                    this.guiContainer.Draw();
-
-                    Raylib.EndDrawing();
-                    Raylib.UnloadTexture(texture);
                 }
-            });
+            }
 
-            renderTask.Start();
+            this.guiContainer.Draw();
+
+            Raylib.EndDrawing();
+            Raylib.UnloadTexture(texture);
         }
     }
 }

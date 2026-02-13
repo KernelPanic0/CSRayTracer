@@ -61,16 +61,21 @@ namespace CSRayTracer
 			world.Add(rightSphere);
 
 			const int imageWidth = 400;
+
+			Lock renderLock = new Lock();
 			Camera camera = new Camera();
 			UI ui = new UI(imageWidth);
-
-			ui.StartRenderTask();
 
 			camera.imageWidth = imageWidth;
 			camera.samplesPerPixel = 10;
 			camera.maxDepth = 5;
 			camera.background = new Colour3(0, 0, 0);
-			camera.Render(world, ui);
+			camera.StartRenderTask(world, ui, renderLock);
+
+			while (!Raylib.WindowShouldClose())
+			{
+				ui.Draw(renderLock);
+			}
 		}
 	}
 }
