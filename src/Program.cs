@@ -60,14 +60,14 @@ namespace CSRayTracer
 			world.Add(middleSphere);
 			world.Add(rightSphere);
 
-			const int imageWidth = 400;
+			const int imageWidth = 800;
 
 			Lock renderLock = new Lock();
 			Camera camera = new Camera();
 			UI ui = new UI(imageWidth);
 
 			camera.imageWidth = imageWidth;
-			camera.samplesPerPixel = 10;
+			camera.samplesPerPixel = 30;
 			camera.maxDepth = 5;
 			camera.background = new Colour3(0, 0, 0);
 			camera.StartRenderTask(world, ui, renderLock);

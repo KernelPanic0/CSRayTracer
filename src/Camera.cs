@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Raylib_cs;
 
 namespace CSRayTracer
 {
@@ -37,49 +40,61 @@ namespace CSRayTracer
 		private void Render(Hittable world, UI ui, Lock renderLock)
 		{
 			InitialiseProperties();
-			WriteMetadata(imageWidth, imageHeight);
-			Console.WriteLine("Wrote metadata.");
 
 			string resultBuffer = ""; // For storing result
 			int rayCount = 0;
 			TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
 			int lastEpoch = (int)t.TotalSeconds;
 
-			StreamWriter writer = new StreamWriter("./out/render.ppm", true);
-			for (int j = 0; j < imageHeight; j++)
+			int[] pixelList = Enumerable.Range(0, imageWidth * (int)imageHeight).ToArray();
+			new Random().Shuffle(pixelList);
+
+			ConcurrentQueue<int> pixelQueue = new ConcurrentQueue<int>();
+
+			foreach (int pixelIndex in pixelList)
 			{
-				lock (renderLock)
+				pixelQueue.Enqueue(pixelIndex);
+			}
+
+			Action tracePixel = () =>
+			{
+				int pixelIndex = 0;
+				while (pixelQueue.TryDequeue(out pixelIndex))
 				{
-					Raylib_cs.Color[] pixels = new Raylib_cs.Color[imageWidth];
-					for (int i = 0; i < imageWidth; i++)
+					int y = pixelIndex / imageWidth;
+					int x = pixelIndex - imageWidth * y;
+
+					lock (renderLock)
 					{
 						Colour3 pixelColour = new Colour3(0, 0, 0);
 						for (int sample = 0; sample < samplesPerPixel; sample++)
 						{
-							Ray ray = GetRay(i, j);
+							Ray ray = GetRay(x, y);
 							pixelColour += RayColour(ray, maxDepth, world);
 							rayCount++;
-							Console.Title = $"{Math.Round((rayCount / (imageHeight * imageWidth * samplesPerPixel)) * 100, 2)}%";
 						}
 						double r = ComputeColour(pixelColour.r, samplesPerPixel);
 						double g = ComputeColour(pixelColour.g, samplesPerPixel);
 						double b = ComputeColour(pixelColour.b, samplesPerPixel);
 
-						int ir = (int)(r);
-						int ig = (int)(g);
-						int ib = (int)(b);
-						resultBuffer += $"{ir} {ig} {ib}\n";
-						pixels[i] = new Raylib_cs.Color(ir, ig, ib);
+						int ir = (int)r;
+						int ig = (int)g;
+						int ib = (int)b;
+						ui.AppendPixel(new Raylib_cs.Color(ir, ig, ib), pixelIndex);
 					}
-					writer.Write(resultBuffer);
-					ui.AppendRow(pixels);
-					t = DateTime.UtcNow - new DateTime(1970, 1, 1);
-					int timeTaken = (int)t.TotalSeconds - lastEpoch;
-					lastEpoch = (int)t.TotalSeconds;
-					Console.WriteLine($"Remaining time: ~	{timeTaken * (imageHeight - j) / 60}m");
 				}
+			};
+
+			int workerCount = Environment.ProcessorCount;
+			Task[] workers = new Task[workerCount];
+
+			for (int i = 0; i < workerCount; i++)
+			{
+				workers[i] = Task.Run(tracePixel);
 			}
-			writer.Close();
+
+			Task.WaitAll(workers);
+
 			Console.WriteLine("Finished");
 			Console.ReadLine();
 
@@ -171,17 +186,6 @@ namespace CSRayTracer
 						double a = 0.5 * (unitDirection.y + 1.0);
 						return (1.0 - a) * new Colour3(1.0, 1.0, 1.0) + a * new Colour3(0.5, 0.7, 1.0); // Linearly blend white and blue depending on y coordinate. Aka a Lerp
 			*/
-		}
-		static void WriteMetadata(int width, double height)
-		{
-			using (StreamWriter writer = new StreamWriter("./render.ppm"))
-			{
-				writer.Write($"P3\n{width.ToString()} {height.ToString()}\n255\n");
-				/// Prefixes the file with the following necesarry metadata for the file format to understand the image 
-				/// P3      <- Declares that colours are in ASCII
-				/// 720 405 <- Declares resoltuoin
-				/// 255     <- Declares colour range
-			}
 		}
 	}
 }
