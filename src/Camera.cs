@@ -30,8 +30,6 @@ namespace CSRayTracer
 			Task renderTask = new Task(() =>
 			{
 				Render(world, ui, renderLock);
-
-				Thread.Sleep(1); // To not occupy 100% of CPU
 			});
 
 			renderTask.Start();
@@ -41,37 +39,34 @@ namespace CSRayTracer
 		{
 			InitialiseProperties();
 
-			string resultBuffer = ""; // For storing result
-			int rayCount = 0;
 			TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
 			int lastEpoch = (int)t.TotalSeconds;
 
-			int[] pixelList = Enumerable.Range(0, imageWidth * (int)imageHeight).ToArray();
-			new Random().Shuffle(pixelList);
+			int[] rowList = Enumerable.Range(0, (int)imageHeight).ToArray();
+			new Random().Shuffle(rowList);
 
-			ConcurrentQueue<int> pixelQueue = new ConcurrentQueue<int>();
+			ConcurrentQueue<int> rowQueue = new ConcurrentQueue<int>();
 
-			foreach (int pixelIndex in pixelList)
+			foreach (int row in rowList)
 			{
-				pixelQueue.Enqueue(pixelIndex);
+				rowQueue.Enqueue(row);
 			}
 
-			Action tracePixel = () =>
+			Action traceRow = () =>
 			{
-				int pixelIndex = 0;
-				while (pixelQueue.TryDequeue(out pixelIndex))
+				int row = 0;
+				while (rowQueue.TryDequeue(out row))
 				{
-					int y = pixelIndex / imageWidth;
-					int x = pixelIndex - imageWidth * y;
-
-					lock (renderLock)
+					Raylib_cs.Color[] rowPixels = new Raylib_cs.Color[imageWidth];
+					for (int x = 0; x < imageWidth; x++)
 					{
+						int y = row;
+
 						Colour3 pixelColour = new Colour3(0, 0, 0);
 						for (int sample = 0; sample < samplesPerPixel; sample++)
 						{
 							Ray ray = GetRay(x, y);
 							pixelColour += RayColour(ray, maxDepth, world);
-							rayCount++;
 						}
 						double r = ComputeColour(pixelColour.r, samplesPerPixel);
 						double g = ComputeColour(pixelColour.g, samplesPerPixel);
@@ -80,8 +75,11 @@ namespace CSRayTracer
 						int ir = (int)r;
 						int ig = (int)g;
 						int ib = (int)b;
-						ui.AppendPixel(new Raylib_cs.Color(ir, ig, ib), pixelIndex);
+
+						rowPixels[x] = new Raylib_cs.Color(ir, ig, ib);
 					}
+
+					ui.AppendRow(rowPixels, imageWidth * row);
 				}
 			};
 
@@ -90,14 +88,13 @@ namespace CSRayTracer
 
 			for (int i = 0; i < workerCount; i++)
 			{
-				workers[i] = Task.Run(tracePixel);
+				workers[i] = Task.Run(traceRow);
 			}
 
 			Task.WaitAll(workers);
 
 			Console.WriteLine("Finished");
 			Console.ReadLine();
-
 		}
 		private double ComputeColour(double colour, int samplesPerPixel)
 		{

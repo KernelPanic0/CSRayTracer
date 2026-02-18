@@ -46,9 +46,9 @@ namespace CSRayTracer
             this.pixels[index] = pixel;
         }
 
-        public void AppendRow(Raylib_cs.Color[] pixels)
+        public void AppendRow(Raylib_cs.Color[] pixels, int index)
         {
-            pixels.CopyTo(this.pixels, width * rows);
+            pixels.CopyTo(this.pixels, index);
             rows++;
         }
         public void Draw(Lock renderLock)

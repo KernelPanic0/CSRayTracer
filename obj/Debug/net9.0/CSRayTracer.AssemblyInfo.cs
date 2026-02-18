@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CSRayTracer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+82fad9abdf630a492799ef39dede403d584525a1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7ffb4106fa5e88ca965a1cfd73fca5c81026f4ba")]
 [assembly: System.Reflection.AssemblyProductAttribute("CSRayTracer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CSRayTracer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

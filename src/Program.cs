@@ -67,7 +67,7 @@ namespace CSRayTracer
 			UI ui = new UI(imageWidth);
 
 			camera.imageWidth = imageWidth;
-			camera.samplesPerPixel = 30;
+			camera.samplesPerPixel = 15;
 			camera.maxDepth = 5;
 			camera.background = new Colour3(0, 0, 0);
 			camera.StartRenderTask(world, ui, renderLock);
