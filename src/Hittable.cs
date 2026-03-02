@@ -9,14 +9,14 @@ namespace CSRayTracer
 {
     class Hittable
     {
-        
+
         public virtual bool Hit(Ray ray, Interval rayT, ref HitRecord hit_record)
         {
             return false;
         }
     }
 
-    class HittableList: Hittable
+    class HittableList : Hittable
     {
         List<Hittable> objects = new List<Hittable>();
         HittableList(Hittable objectToAdd)
@@ -24,12 +24,12 @@ namespace CSRayTracer
             objects.Add(objectToAdd);
         }
 
-		public HittableList() { }
+        public HittableList() { }
 
         public void Add(Hittable objectToAdd)
         {
             objects.Add(objectToAdd);
-		}
+        }
 
         public override bool Hit(Ray ray, Interval rayT, ref HitRecord hitRecord)
         {
@@ -45,12 +45,12 @@ namespace CSRayTracer
                     closestSoFar = tempRecord.t;
                     hitRecord = tempRecord;
                 }
-            } 
+            }
             return hitAnything;
         }
     }
 
-    class HitRecord
+    struct HitRecord
     {
         public Point3 point { get; set; }
         public Vector3 normal { get; set; }
@@ -58,7 +58,7 @@ namespace CSRayTracer
         public double t { get; set; }
         public bool frontFace { get; set; }
 
-        public void SetFaceNormal(Ray ray, Vector3 outwardNormal) 
+        public void SetFaceNormal(Ray ray, Vector3 outwardNormal)
         {
             // The parameter outward should be of unit length.
             frontFace = Vector3.Dot(ray.direction, outwardNormal) < 0;

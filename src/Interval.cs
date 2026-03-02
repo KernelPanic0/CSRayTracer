@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CSRayTracer
 {
-	class Interval
+	struct Interval
 	{
 		public double min, max;
 
@@ -15,8 +15,8 @@ namespace CSRayTracer
 			this.min = min;
 			this.max = max;
 		}
-		public bool Contains(double x) { return x >= min && x <= max;}
-		public bool Surrounds(double x) { return x > min && x < max;}
+		public bool Contains(double x) { return x >= min && x <= max; }
+		public bool Surrounds(double x) { return x > min && x < max; }
 		public double Clamp(double x)
 		{
 			if (x < min) return min;

@@ -23,24 +23,49 @@ namespace CSRayTracer
 		private Point3 pixel00Loc;
 		private Vector3 pixelDeltaHorizontal;
 		private Vector3 pixelDeltaVertical;
+		// private DateTime lastRenderEpoch = DateTime.UtcNow;
+		private int pixelCount;
+		private int rayCount;
+		private Hittable world;
+		private UI ui;
+		private Lock renderLock;
 		private Random random = new Random();
 
-		public void StartRenderTask(Hittable world, UI ui, Lock renderLock)
+		public void StartRenderTask()
 		{
 			Task renderTask = new Task(() =>
 			{
-				Render(world, ui, renderLock);
+				Render();
 			});
 
 			renderTask.Start();
 		}
 
-		private void Render(Hittable world, UI ui, Lock renderLock)
+		private void CalculatePPS()
+		{
+			Task.Run(async () =>
+			{
+				while (!Raylib.WindowShouldClose())
+				{
+					await Task.Delay(3000);
+					ui.pixelsPerSecond = pixelCount / 3;
+					ui.raysPerSecond = rayCount / 3;
+					Interlocked.Exchange(ref pixelCount, 0);
+					Interlocked.Exchange(ref rayCount, 0);
+				}
+			});
+		}
+
+		public Camera(Hittable world, UI ui, Lock renderLock)
+		{
+			this.world = world;
+			this.ui = ui;
+			this.renderLock = renderLock;
+		}
+
+		private void Render()
 		{
 			InitialiseProperties();
-
-			TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
-			int lastEpoch = (int)t.TotalSeconds;
 
 			int[] rowList = Enumerable.Range(0, (int)imageHeight).ToArray();
 			new Random().Shuffle(rowList);
@@ -66,7 +91,8 @@ namespace CSRayTracer
 						for (int sample = 0; sample < samplesPerPixel; sample++)
 						{
 							Ray ray = GetRay(x, y);
-							pixelColour += RayColour(ray, maxDepth, world);
+							Interlocked.Increment(ref rayCount);
+							pixelColour += RayColour(ray, maxDepth, this.world);
 						}
 						double r = ComputeColour(pixelColour.r, samplesPerPixel);
 						double g = ComputeColour(pixelColour.g, samplesPerPixel);
@@ -77,9 +103,10 @@ namespace CSRayTracer
 						int ib = (int)b;
 
 						rowPixels[x] = new Raylib_cs.Color(ir, ig, ib);
+						Interlocked.Increment(ref pixelCount);
 					}
 
-					ui.AppendRow(rowPixels, imageWidth * row);
+					this.ui.AppendRow(rowPixels, imageWidth * row);
 				}
 			};
 
@@ -91,6 +118,7 @@ namespace CSRayTracer
 				workers[i] = Task.Run(traceRow);
 			}
 
+			CalculatePPS();
 			Task.WaitAll(workers);
 
 			Console.WriteLine("Finished");
@@ -146,7 +174,6 @@ namespace CSRayTracer
 			//Upper left pixel
 			Vector3 viewportTopLeft = (Vector3)(cameraCenter - new Vector3(0, 0, focalLength) - viewportHorizontal / 2 - viewportVertical / 2);
 			pixel00Loc = (Point3)viewportTopLeft + 0.5 * (pixelDeltaHorizontal + pixelDeltaVertical);
-
 		}
 		private double LinearToGamma(double colour)
 		{

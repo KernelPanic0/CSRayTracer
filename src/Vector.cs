@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CSRayTracer
 {
-	class Vector3
+	struct Vector3
 	{
 		public double x { get; set; }
 		public double y { get; set; }
@@ -19,13 +19,13 @@ namespace CSRayTracer
 			this.y = y;
 			this.z = z;
 		}
-        public Vector3(Point3 point)
-        {
-            this.x = point.x;
-            this.y = point.y;
-            this.z = point.z;
-        }
-        public double Length()
+		public Vector3(Point3 point)
+		{
+			this.x = point.x;
+			this.y = point.y;
+			this.z = point.z;
+		}
+		public double Length()
 		{
 			return Math.Sqrt(LengthSquared());
 		}
@@ -62,7 +62,7 @@ namespace CSRayTracer
 		{
 			return UnitVector(RandomInUnitSphere());
 		}
-		public  bool NearZero()
+		public bool NearZero()
 		{
 			double s = 1e-8;
 			return (x < s) && (y < s) && (z < s);
@@ -72,8 +72,9 @@ namespace CSRayTracer
 			Vector3 onUnitSphere = RandomUnitVector();
 			if (Dot(onUnitSphere, normal) > 0.0) // Same hemisphere as the normal
 			{
-                return onUnitSphere;
-			} else
+				return onUnitSphere;
+			}
+			else
 			{
 				return -onUnitSphere;
 			}
@@ -91,19 +92,19 @@ namespace CSRayTracer
 			return vector / vector.Length();
 		}
 
-        // Operator overloads to change functionality when doing math on 2 vectors
-        // +
-        public static Vector3 operator +(Vector3 vector1, Vector3 vector2)
-        {
-            return new Vector3(vector1.x + vector2.x, vector1.y + vector2.y, vector1.z + vector2.z);
-        }
-        public static Vector3 operator +(Vector3 vector, Colour3 colour)
-        {
-            return new Vector3(vector.x + colour.r, vector.y + colour.g, vector.z + colour.b);
-        }
+		// Operator overloads to change functionality when doing math on 2 vectors
+		// +
+		public static Vector3 operator +(Vector3 vector1, Vector3 vector2)
+		{
+			return new Vector3(vector1.x + vector2.x, vector1.y + vector2.y, vector1.z + vector2.z);
+		}
+		public static Vector3 operator +(Vector3 vector, Colour3 colour)
+		{
+			return new Vector3(vector.x + colour.r, vector.y + colour.g, vector.z + colour.b);
+		}
 
-        // -
-        public static Vector3 operator -(Vector3 vector1, Vector3 vector2)
+		// -
+		public static Vector3 operator -(Vector3 vector1, Vector3 vector2)
 		{
 			return new Vector3(vector1.x - vector2.x, vector1.y - vector2.y, vector1.z - vector2.z);
 		}
@@ -112,11 +113,11 @@ namespace CSRayTracer
 			return new Vector3(-vector.x, -vector.y, -vector.z);
 		}
 		public static Vector3 operator -(Vector3 vector, Point3 point)
-        {
-            return new Vector3(vector.x - point.x, vector.y - point.y, vector.z - point.z);
-        }
-        // *
-        public static Vector3 operator *(Vector3 vector1, Vector3 vector2)
+		{
+			return new Vector3(vector.x - point.x, vector.y - point.y, vector.z - point.z);
+		}
+		// *
+		public static Vector3 operator *(Vector3 vector1, Vector3 vector2)
 		{
 			return new Vector3(vector1.x * vector2.x, vector1.y * vector2.y, vector1.z * vector2.z);
 		}
@@ -134,7 +135,7 @@ namespace CSRayTracer
 			return new Vector3(vector.x / t, vector.y / t, vector.z / t);
 		}
 	}
-	class Point3
+	struct Point3
 	{
 		public double x { get; set; }
 		public double y { get; set; }
@@ -151,57 +152,57 @@ namespace CSRayTracer
 			this.y = vector.y;
 			this.z = vector.z;
 		}
-        // Custom conversion method to cast from Vector3 to Colour3
-        public static explicit operator Point3(Vector3 vector)
-        {
-            return new Point3(vector);
-        }
-        public static explicit operator Vector3(Point3 point)
-        {
-            return new Vector3(point);
-        }
+		// Custom conversion method to cast from Vector3 to Colour3
+		public static explicit operator Point3(Vector3 vector)
+		{
+			return new Point3(vector);
+		}
+		public static explicit operator Vector3(Point3 point)
+		{
+			return new Vector3(point);
+		}
 
-        public static Point3 operator +(Point3 point1, Point3 point2)
-        {
-            return new Point3(point1.x + point2.x, point1.y + point2.y, point1.z + point2.z);
-        }
-        public static Point3 operator +(Vector3 vector, Point3 point)
-        {
-            return new Point3(vector.x + point.x, vector.y + point.y, vector.z + point.z);
-        }
-        public static Point3 operator +(Point3 point, Vector3 vector)
-        {
-            return new Point3(vector.x + point.x, vector.y + point.y, vector.z + point.z);
-        }
-        // -
-        public static Point3 operator -(Point3 point1, Point3 point2)
-        {
-            return new Point3(point1.x - point2.x, point1.y - point2.y, point1.z - point2.z);
-        }
-        public static Point3 operator -(Point3 point, Vector3 vector)
-        {
-            return new Point3(point.x - vector.x, point.y - vector.y, point.z - vector.z);
-        }
-        // *
-        public static Point3 operator *(Point3 point1, Point3 point2)
-        {
-            return new Point3(point1.x * point2.x, point1.y * point2.y, point1.z * point2.z);
-        }
-        public static Point3 operator *(Point3 vector, double t)
-        {
-            return new Point3(vector.x * t, vector.y * t, vector.z * t);
-        }
-        public static Point3 operator *(double t, Point3 vector)
-        {
-            return new Point3(vector.x * t, vector.y * t, vector.z * t);
-        }
-        // /
-        public static Point3 operator /(Point3 vector, double t)
-        {
-            return new Point3(vector.x / t, vector.y / t, vector.z / t);
-        }
-    }
-	class Colour3
+		public static Point3 operator +(Point3 point1, Point3 point2)
+		{
+			return new Point3(point1.x + point2.x, point1.y + point2.y, point1.z + point2.z);
+		}
+		public static Point3 operator +(Vector3 vector, Point3 point)
+		{
+			return new Point3(vector.x + point.x, vector.y + point.y, vector.z + point.z);
+		}
+		public static Point3 operator +(Point3 point, Vector3 vector)
+		{
+			return new Point3(vector.x + point.x, vector.y + point.y, vector.z + point.z);
+		}
+		// -
+		public static Point3 operator -(Point3 point1, Point3 point2)
+		{
+			return new Point3(point1.x - point2.x, point1.y - point2.y, point1.z - point2.z);
+		}
+		public static Point3 operator -(Point3 point, Vector3 vector)
+		{
+			return new Point3(point.x - vector.x, point.y - vector.y, point.z - vector.z);
+		}
+		// *
+		public static Point3 operator *(Point3 point1, Point3 point2)
+		{
+			return new Point3(point1.x * point2.x, point1.y * point2.y, point1.z * point2.z);
+		}
+		public static Point3 operator *(Point3 vector, double t)
+		{
+			return new Point3(vector.x * t, vector.y * t, vector.z * t);
+		}
+		public static Point3 operator *(double t, Point3 vector)
+		{
+			return new Point3(vector.x * t, vector.y * t, vector.z * t);
+		}
+		// /
+		public static Point3 operator /(Point3 vector, double t)
+		{
+			return new Point3(vector.x / t, vector.y / t, vector.z / t);
+		}
+	}
+	struct Colour3
 	{
 		public double r { get; set; }
 		public double g { get; set; }

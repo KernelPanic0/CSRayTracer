@@ -1,7 +1,4 @@
-﻿// Written by Yarik Panchenko at Cirencester College 2023.
-// github.com/KernelPanic0
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
@@ -22,7 +19,7 @@ namespace CSRayTracer
 			Lambertian mSurface = new Lambertian(new Colour3(1, 1, 1));
 			Lambertian matL = new Metal(new Colour3(1, 0.188, 0.188));
 			Lambertian matR = new Lambertian(new Colour3(0.023, 0.360, 0));
-			DiffuseLight diffuseLight = new DiffuseLight(new Colour3(0.8125, 1.09375, 3.671875));
+			DiffuseLight diffuseLight = new DiffuseLight(new Colour3(1, 1, 1));
 
 
 			//World 
@@ -60,17 +57,17 @@ namespace CSRayTracer
 			world.Add(middleSphere);
 			world.Add(rightSphere);
 
-			const int imageWidth = 800;
+			const int imageWidth = 400;
 
 			Lock renderLock = new Lock();
-			Camera camera = new Camera();
 			UI ui = new UI(imageWidth);
+			Camera camera = new Camera(world, ui, renderLock);
 
 			camera.imageWidth = imageWidth;
-			camera.samplesPerPixel = 15;
-			camera.maxDepth = 5;
+			camera.samplesPerPixel = 200;
+			camera.maxDepth = 15;
 			camera.background = new Colour3(0, 0, 0);
-			camera.StartRenderTask(world, ui, renderLock);
+			camera.StartRenderTask();
 
 			while (!Raylib.WindowShouldClose())
 			{

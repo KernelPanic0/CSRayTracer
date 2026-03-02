@@ -14,13 +14,16 @@ namespace CSRayTracer
         private Raylib_cs.Color[] pixels;
         private RayGUI_cs.GuiContainer guiContainer;
         private int rows = 0;
-        private int x = 0;
+        public int pixelsPerSecond = 0;
+        public int raysPerSecond = 0;
+        public int percentComplete;
         private int windowWidth = 800;
         private Font font;
         public UI(int width)
         {
             this.width = width;
             this.height = (int)(this.width / (16.0 / 9.0));
+            pixels = new Raylib_cs.Color[width * (int)height + width * 10];
 
             Raylib.SetConfigFlags(Raylib_cs.ConfigFlags.ResizableWindow);
             Raylib.SetTraceLogLevel(TraceLogLevel.Error);
@@ -38,12 +41,6 @@ namespace CSRayTracer
             };
             this.guiContainer.Add("saveButton", saveBtn);
 
-            pixels = new Raylib_cs.Color[width * (int)height + width * 10];
-        }
-
-        public void AppendPixel(Raylib_cs.Color pixel, int index)
-        {
-            this.pixels[index] = pixel;
         }
 
         public void AppendRow(Raylib_cs.Color[] pixels, int index)
@@ -51,6 +48,7 @@ namespace CSRayTracer
             pixels.CopyTo(this.pixels, index);
             rows++;
         }
+
         public void Draw(Lock renderLock)
         {
             Raylib.BeginDrawing();
@@ -86,11 +84,13 @@ namespace CSRayTracer
                         int renderHeight = (int)(height * scale);
                         Raylib.DrawRectangleLines(1, renderHeight + 1, Raylib.GetScreenWidth() - 1, menuHeight - 1, Color.White);
 
-                        Raylib.DrawTextEx(font, "Pixels Per Second: ...", new Vector2(130, renderHeight + 20), 15, 1, Color.White);
-                        Raylib.DrawTextEx(font, "Rays Per Second: ...", new Vector2(130, renderHeight + 30), 15, 1, Color.White);
+                        Raylib.DrawTextEx(font, $"Pixels Per Second: {pixelsPerSecond}", new Vector2(130, renderHeight + 20), 15, 1, Color.White);
+                        Raylib.DrawTextEx(font, $"Rays Per Second: {raysPerSecond}", new Vector2(130, renderHeight + 30), 15, 1, Color.White);
 
-                        Raylib.DrawRectangleLines(280, renderHeight + menuHeight / 2, Raylib.GetScreenWidth() - 285, 11, Color.White);
-                        Raylib.DrawRectangle(280, renderHeight + menuHeight / 2, Raylib.GetScreenWidth() - 300, 10, Color.DarkGreen);
+                        // Loading Bar
+                        Raylib.DrawRectangleLines(300, renderHeight + menuHeight / 2, Raylib.GetScreenWidth() - 305, 11, Color.White);
+                        int loadingProgress = (int)(float)(((float)rows / (float)height) * (Raylib.GetScreenWidth() - 306));
+                        Raylib.DrawRectangle(300, renderHeight + menuHeight / 2, loadingProgress, 10, Color.DarkGreen);
 
                         string remainingTimeString = "Estimated Remaining Time: 20s";
                         Raylib.DrawTextEx(font, remainingTimeString, new Vector2(Raylib.GetScreenWidth() / 2, renderHeight + menuHeight / 4), 15, 1, Color.White);
