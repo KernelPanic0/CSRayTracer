@@ -16,7 +16,7 @@ namespace CSRayTracer
         private int rows = 0;
         public int pixelsPerSecond = 0;
         public int raysPerSecond = 0;
-        public int percentComplete;
+        public float estimatedRemainingTime = 0f;
         private int windowWidth = 800;
         private Font font;
         public UI(int width)
@@ -40,7 +40,6 @@ namespace CSRayTracer
                 Util.writeImage(pixels, width, height);
             };
             this.guiContainer.Add("saveButton", saveBtn);
-
         }
 
         public void AppendRow(Raylib_cs.Color[] pixels, int index)
@@ -92,7 +91,7 @@ namespace CSRayTracer
                         int loadingProgress = (int)(float)(((float)rows / (float)height) * (Raylib.GetScreenWidth() - 306));
                         Raylib.DrawRectangle(300, renderHeight + menuHeight / 2, loadingProgress, 10, Color.DarkGreen);
 
-                        string remainingTimeString = "Estimated Remaining Time: 20s";
+                        string remainingTimeString = $"Estimated Remaining Time: {estimatedRemainingTime:F1}s";
                         Raylib.DrawTextEx(font, remainingTimeString, new Vector2(Raylib.GetScreenWidth() / 2, renderHeight + menuHeight / 4), 15, 1, Color.White);
 
                         saveButton.Y = renderHeight + menuHeight / 2 - saveButton.Height / 2;

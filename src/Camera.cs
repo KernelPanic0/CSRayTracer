@@ -23,9 +23,11 @@ namespace CSRayTracer
 		private Point3 pixel00Loc;
 		private Vector3 pixelDeltaHorizontal;
 		private Vector3 pixelDeltaVertical;
-		// private DateTime lastRenderEpoch = DateTime.UtcNow;
+		private DateTime lastRowRenderEpoch = DateTime.UtcNow;
 		private int pixelCount;
 		private int rayCount;
+		private int completedRows;
+		private Stopwatch renderStopwatch = new Stopwatch();
 		private Hittable world;
 		private UI ui;
 		private Lock renderLock;
@@ -67,7 +69,8 @@ namespace CSRayTracer
 		{
 			InitialiseProperties();
 
-			int[] rowList = Enumerable.Range(0, (int)imageHeight).ToArray();
+			int totalRows = (int)imageHeight;
+			int[] rowList = Enumerable.Range(0, totalRows).ToArray();
 			new Random().Shuffle(rowList);
 
 			ConcurrentQueue<int> rowQueue = new ConcurrentQueue<int>();
@@ -107,12 +110,22 @@ namespace CSRayTracer
 					}
 
 					this.ui.AppendRow(rowPixels, imageWidth * row);
+
+					int done = Interlocked.Increment(ref completedRows);
+					double elapsedSeconds = renderStopwatch.Elapsed.TotalSeconds;
+					if (elapsedSeconds > 0 && done > 0)
+					{
+						double rowsPerSecond = done / elapsedSeconds;
+						int remaining = totalRows - done;
+						this.ui.estimatedRemainingTime = (float)(remaining / rowsPerSecond);
+					}
 				}
 			};
 
 			int workerCount = Environment.ProcessorCount;
 			Task[] workers = new Task[workerCount];
 
+			renderStopwatch.Start();
 			for (int i = 0; i < workerCount; i++)
 			{
 				workers[i] = Task.Run(traceRow);
