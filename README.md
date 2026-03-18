@@ -8,6 +8,7 @@ Current Features:
     - Lambertian
     - Metal
     - DiffuseLight
+- Antialiasing
 - Multithreaded progressive rendering pipeline (using .NET's Tasks)
 - Random ray bouncing with pixel multisampling to best estimate colour.
 - A UI made with C# Raylib and RayGUI bindings
@@ -23,4 +24,5 @@ If working in VSCode or a different text editor, simply run `dotnet run` (with -
 
 ## Render Showcases
 
-![](./out/render.png)
+<img src="./out/render1.png" alt="drawing" width="600"/>
+<img src="./out/render2.png" alt="drawing" width="600"/>

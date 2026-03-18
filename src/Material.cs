@@ -18,7 +18,7 @@ namespace CSRayTracer
 			return new Colour3(0, 0, 0);
 		}
 	}
-	
+
 	class Lambertian : Material
 	{
 		private Colour3 albedo;
@@ -46,7 +46,7 @@ namespace CSRayTracer
 		private Colour3 albedo;
 		private double fuzz;
 		public Metal(Colour3 albedo, double fuzz) : base(albedo)
-		{ 
+		{
 			this.albedo = albedo;
 			this.fuzz = fuzz;
 		}
@@ -60,7 +60,7 @@ namespace CSRayTracer
 		public override bool Scatter(Ray rayIn, HitRecord hitRecord, ref Colour3 attenuation, ref Ray scattered)
 		{
 			Vector3 reflected = Vector3.Reflect(Vector3.UnitVector(rayIn.direction), hitRecord.normal);
-			scattered = new Ray(hitRecord.point, reflected + fuzz*Vector3.RandomUnitVector());
+			scattered = new Ray(hitRecord.point, reflected + fuzz * Vector3.RandomUnitVector());
 			attenuation = albedo;
 			return Vector3.Dot(scattered.direction, hitRecord.normal) > 0;
 		}
@@ -69,9 +69,11 @@ namespace CSRayTracer
 	class DiffuseLight : Material
 	{
 		private Colour3 emit;
-		public DiffuseLight(Colour3 emit)
+		private double intensity;
+		public DiffuseLight(Colour3 emit, double intensity)
 		{
 			this.emit = emit;
+			this.intensity = intensity;
 		}
 
 		public override bool Scatter(Ray rayIn, HitRecord hitRecord, ref Colour3 attenuation, ref Ray scattered)
@@ -80,7 +82,7 @@ namespace CSRayTracer
 		}
 		public override Colour3 Emitted(double u, double v, Point3 point)
 		{
-			return emit;
+			return emit * intensity;
 		}
 	}
 }
